@@ -5,10 +5,13 @@
     <div class="top-app row bg-success m-0" style="height: 90%; border-bottom-left-radius: 48px; border-bottom-right-radius: 48px;">
       <div class="top-app-left col-2 bg-grey-dark" style="border-bottom-left-radius: 48px;">
       </div>
+
+      <!-- andxeur -->
       <div class="top-app-right col-10 bg-white" style="border-bottom-right-radius: 48px;">
       </div>
     </div>
 
+    <!-- Vadiny Fotsing -->
     <div class="bottom-app container-fluid bg-black" style="height: 10%">
     </div>
 
