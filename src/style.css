@@ -4,10 +4,17 @@
     box-sizing: border-box;
 }
 
+p{
+    margin: 0;
+}
+
 .bg-grey-light{
     background-color: #888888;
 }
 
 .bg-grey-dark{
     background-color: #454545;
+}
+.bg-rose{
+    background-color: #9c1855;
 }
