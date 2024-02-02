@@ -7,12 +7,10 @@
 
         <div class="mt-3">
           <h4 class="text-white mb-4">MENU</h4>
-          <div class="d-flex align-items-center mb-5" v-for="(menu ,index) in menus" :key="index">
-            <img width="40" class="pe-3" v-bind:src="require(`../assets/icon/${menu.nameImage}`)" alt="image maison" @click="menuAction(menu.alt)" >
+          <div class="d-flex align-items-center mb-5" role="button" v-for="(menu ,index) in menus" :key="index" @click="menuAction(menu.alt)">
+            <img width="40" class="pe-3" v-bind:src="require(`../assets/icon/${menu.nameImage}`)" alt="image maison" >
             <p class="m-0 fw-bold text-white">{{ menu.alt }}</p>
           </div>
-          <input ref="tesref" id="fileselector" type="file" accept=".mp3" @change="handleFileSelected" webkitdirectory directory multiple="false" style="display:block" />
-<!--          <button onclick="getElementById('fileselector').click()">dossier</button>-->
         </div>
 
       </div>
@@ -33,8 +31,24 @@
             </div>
           </div>
         </div>
-        <div class="w-100 pt-3 fw-bold" style="height: 50%; padding-left:3%; padding-right: 3%">
+        <div class="w-100 pt-3 fw-bold " style="height: 50%; padding-left:3%; padding-right: 3%">
           <p>Liste De Lecture</p>
+          <div class="listSong w-100 h-100 ">
+            <!---------------------------- D.E.E ----------------------------->
+            <div class="w-50  d-flex justify-content-between align-items-center mt-3" style="height: 15%;" >
+              <div class="d-flex align-items-center h-100" >
+                <div class="h-100 rounded bg-grey-light" style="width:50px;"></div>
+                <p class="ms-2">Titre du song</p>
+              </div>
+              <p>Genre du song</p>
+              <P>00:00</P>
+              <div class="d-flex align-items-center justify-content-between h-75" style="width: 20%;">
+                <img class="img-fluid h-50" :src="require('@/assets/icon/heart.png')" alt="icon play">
+                <img class="img-fluid h-50" :src="require('@/assets/icon/trash.png')" alt="icon play">
+                <img class="img-fluid" style="width: 20%;" :src="require('@/assets/icon/Dots.png')" alt="icon play">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +65,7 @@
         <div class="h-50 d-flex justify-content-between align-items-center" style="width: 40%;">
           <img class="img-fluid h-50 " :src="require('@/assets/icon/button-shuffle.png')" alt="icon play">
           <img class="img-fluid h-50" :src="require('@/assets/icon/back.png')" alt="icon play">
-          <div class="rounded-circle bg-white h-100  d-flex align-items-center justify-content-center" style="width: 10%;">
+          <div class="rounded-circle bg-white h-100  d-flex align-items-center justify-content-center playsSong" style="width: 10%;">
             <img class="img-fluid h-50" :src="require('@/assets/icon/plays.png')" alt="icon play">
           </div>
           <img class="img-fluid h-50" :src="require('@/assets/icon/next.png')" alt="icon play">
@@ -78,14 +92,25 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import {onMounted} from 'vue';
+import dataSong from '@/assets/data/song.json'
 
+let audio = new Audio(require('@/assets/song/' + dataSong[3].music));
+
+//apres avoir monter tout les elements html
 onMounted(()=> {
-  const imput = document.getElementById('fileselector');
-  console.log(imput);
+
+  let playsSong = document.querySelector(".playsSong");
+
+  console.log(audio)
+
+  playsSong.addEventListener("click", () => {
+    audio.load()
+    audio.play()
+
+  });
+
 });
-
-
 
 const menus = [
   { nameImage: "home-water.png", alt: "Dossier" },
@@ -97,44 +122,22 @@ const menus = [
 function menuAction(nameMenu) {
 
   switch (nameMenu) {
-    case "Dossier":
-      console.log(`L'utilisateur a cliqué sur l'image ${1}`);
-
-      break;
-    case "Songs":
-      console.log(`L'utilisateur a cliqué sur l'image ${2}`);
-
-      break;
-    case "Playlist":
-      break;
-    case "Just for You":
-      break;
-
+    case "Dossier":console.log(`L'utilisateur a cliqué sur l'image ${1}`); break;
+    case "Songs":console.log(`L'utilisateur a cliqué sur l'image ${2}`);break;
+    case "Playlist":break;
+    case "Just for You":break;
   }
 }
 
-const handleFileSelected = (event) => {
-  console.log(event);
-  // Récupère les fichiers sélectionnés.
-  const files = event.target.files;
-  const mp3Files = [];
+//liste tout les song trouver
+for (let i in dataSong) {
 
-  // Parcourt les fichiers et ajoute les fichiers .mp3 à la liste.
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    if (file.type === 'audio/mpeg') {
-      mp3Files.push(file);
-    }
-  }
+  //affiche le nom de l'artiste
+  console.log(dataSong[i].artist);
 
-  // Répertorie les fichiers .mp3.
-  console.log('Fichiers .mp3 sélectionnés:');
-  for (let i = 0; i < mp3Files.length; i++) {
-    console.log(mp3Files[i].name);
-    console.log(mp3Files[i].filePath);
-
-  }
-};
+  //affiche le nom complet du song
+  console.log(dataSong[i].music);
+}
 
 </script>
 
