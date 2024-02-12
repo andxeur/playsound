@@ -34,7 +34,7 @@
         <div class="w-100 pt-3 fw-bold " style="height: 50%; padding-left:3%; padding-right: 3%">
           <p>Liste De Lecture</p>
           
-          <div class="listSong w-100 h-100 ">
+          <div class="listSong w-100 h-100  overflow-x-scroll ">
             <!---------------------------- D.E.E ----------------------------->
            <!--  <li v-for="(message,index) in dataSong" :key="index">
                       {{ dataSong[0].artist}}
@@ -43,7 +43,7 @@
               <div class="d-flex align-items-center h-100" >
                 <div class="h-100 rounded bg-grey-light" style="width:50px;"></div>
                 
-                <p class="ms-2" >Titre du song</p>
+                <p class="ms-2" >{{ message.artist }}</p>
               </div>
               <p>Genre du song</p>
               <P>00:00</P>
