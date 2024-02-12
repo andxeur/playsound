@@ -33,15 +33,21 @@
         </div>
         <div class="w-100 pt-3 fw-bold " style="height: 50%; padding-left:3%; padding-right: 3%">
           <p>Liste De Lecture</p>
+          
           <div class="listSong w-100 h-100 ">
             <!---------------------------- D.E.E ----------------------------->
-            <div class="w-50  d-flex justify-content-between align-items-center mt-3" style="height: 15%;" >
+           <!--  <li v-for="(message,index) in dataSong" :key="index">
+                      {{ dataSong[0].artist}}
+            </li>-->
+            <div class="w-50  d-flex justify-content-between align-items-center mt-3" style="height: 15%;" v-for="(message,index) in dataSong" :key="index" >
               <div class="d-flex align-items-center h-100" >
                 <div class="h-100 rounded bg-grey-light" style="width:50px;"></div>
-                <p class="ms-2">Titre du song</p>
+                
+                <p class="ms-2" >Titre du song</p>
               </div>
               <p>Genre du song</p>
               <P>00:00</P>
+           
               <div class="d-flex align-items-center justify-content-between h-75" style="width: 20%;">
                 <img class="img-fluid h-50" :src="require('@/assets/icon/heart.png')" alt="icon play">
                 <img class="img-fluid h-50" :src="require('@/assets/icon/trash.png')" alt="icon play">
@@ -107,6 +113,7 @@ onMounted(()=> {
   playsSong.addEventListener("click", () => {
     audio.load()
     audio.play()
+    
 
   });
 
@@ -134,10 +141,12 @@ for (let i in dataSong) {
 
   //affiche le nom de l'artiste
   console.log(dataSong[i].artist);
-
   //affiche le nom complet du song
   console.log(dataSong[i].music);
+ 
+
 }
+
 
 </script>
 
