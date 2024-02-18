@@ -46,7 +46,7 @@
                 <p class="ms-2" >{{ message.artist }}</p>
               </div>
               <p>Genre du song</p>
-              <P>00:00</P>
+              <P>{{ message.duration }}</P>
            
               <div class="d-flex align-items-center justify-content-between h-75" style="width: 20%;">
                 <img class="img-fluid h-50" :src="require('@/assets/icon/heart.png')" alt="icon play">
@@ -103,12 +103,18 @@ import dataSong from '@/assets/data/song.json'
 
 let audio = new Audio(require('@/assets/song/' + dataSong[3].music));
 
+
 //apres avoir monter tout les elements html
 onMounted(()=> {
 
   let playsSong = document.querySelector(".playsSong");
 
   console.log(audio)
+  audio.addEventListener('loadedmetadata',function(){
+    // recupere la duree en secondes
+    let duration = audio.duration;
+    console.log(duration);
+  })
 
   playsSong.addEventListener("click", () => {
     audio.load()
@@ -143,7 +149,7 @@ for (let i in dataSong) {
   console.log(dataSong[i].artist);
   //affiche le nom complet du song
   console.log(dataSong[i].music);
- 
+  console.log(dataSong[i].duration)
 
 }
 
