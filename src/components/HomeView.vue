@@ -33,28 +33,9 @@
         </div>
         <div class="w-100 pt-3 fw-bold " style="height: 50%; padding-left:3%; padding-right: 3%">
           <p>Liste De Lecture</p>
-          
-          <div class="listSong w-100 h-100  overflow-x-scroll ">
-            <!---------------------------- D.E.E ----------------------------->
-           <!--  <li v-for="(message,index) in dataSong" :key="index">
-                      {{ dataSong[0].artist}}
-            </li>-->
-            <div class="w-50  d-flex justify-content-between align-items-center mt-3" style="height: 15%;" v-for="(message,index) in dataSong" :key="index" >
-              <div class="d-flex align-items-center h-100" >
-                <div class="h-100 rounded bg-grey-light" style="width:50px;"></div>
-                
-                <p class="ms-2" >{{ message.artist }}</p>
-              </div>
-              <p>Genre du song</p>
-              <P>{{ message.duration }}</P>
-           
-              <div class="d-flex align-items-center justify-content-between h-75" style="width: 20%;">
-                <img class="img-fluid h-50" :src="require('@/assets/icon/heart.png')" alt="icon play">
-                <img class="img-fluid h-50" :src="require('@/assets/icon/trash.png')" alt="icon play">
-                <img class="img-fluid" style="width: 20%;" :src="require('@/assets/icon/Dots.png')" alt="icon play">
-              </div>
-            </div>
-          </div>
+
+          <!---------------------------- D.E.E ----------------------------->
+          <div class="listSong w-100 h-100  overflow-x-scroll "></div>
         </div>
       </div>
     </div>
@@ -78,9 +59,9 @@
           <img class="img-fluid h-50" :src="require('@/assets/icon/ic_repeat_24px.png')" alt="icon play">
         </div>
         <div class="h-50 d-flex align-items-center" style="width: 58%;">
-          <p class="text-white me-1">0:00</p>
+          <p class="text-white me-1">00:00:00</p>
           <input class="progress-son" type="range" min="1" max="100" value="0" >
-          <p class="text-white ms-1">0:00</p>
+          <p class="text-white ms-1">00:00:00</p>
         </div>
       </div>
       <div class="d-flex align-items-center" style="width: 20%;">
@@ -101,26 +82,60 @@
 import {onMounted} from 'vue';
 import dataSong from '@/assets/data/song.json'
 
-let audio = new Audio(require('@/assets/song/' + dataSong[3].music));
-
+let songEnCourDeLecture = new Audio();
 
 //apres avoir monter tout les elements html
 onMounted(()=> {
 
-  let playsSong = document.querySelector(".playsSong");
+  const playsSong = document.querySelector(".playsSong");
+  const divListSong = document.querySelector(".listSong");
 
-  console.log(audio)
-  audio.addEventListener('loadedmetadata',function(){
-    // recupere la duree en secondes
-    let duration = audio.duration;
-    console.log(duration);
-  })
+  for (let i in dataSong) {
+
+    let audio = new Audio(require('@/assets/song/' + dataSong[i].music));
+
+    audio.addEventListener('loadedmetadata', function() {
+
+      let duree = audio.duration;
+
+      let hours = Math.floor(duree / 3600);
+      let minutes = Math.floor((duree % 3600) / 60);
+      let seconds = Math.floor(duree % 60);
+
+      let durrerTotale = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      const divConteneurItemeSong = document.createElement("div");
+
+      divConteneurItemeSong.classList.add("w-50");
+      divConteneurItemeSong.classList.add("d-flex");
+      divConteneurItemeSong.classList.add("justify-content-between");
+      divConteneurItemeSong.classList.add("align-items-center");
+      divConteneurItemeSong.classList.add("mt-3");
+
+      divConteneurItemeSong.style.height= "15%";
+      divConteneurItemeSong.innerHTML = `
+
+     <div class="d-flex align-items-center h-100" >
+               <div class="h-100 rounded bg-grey-light" style="width:50px;"></div>
+                 <p class="ms-2" >${ dataSong[i].artist }</p>
+              </div>
+              <p>Genre du song</p>
+              <p> ${ durrerTotale }</p>
+
+              <div class="d-flex align-items-center justify-content-between h-75" style="width: 20%;">
+                <img  class="img-fluid h-50" src=" ${ require('@/assets/icon/heart.png') }" alt="icon play" srcset="">
+                <img  class="img-fluid h-50"  src=" ${ require('@/assets/icon/trash.png') } " alt="icon play" srcset="">
+                <img class="img-fluid" style="width: 20%;" src=" ${ require('@/assets/icon/Dots.png') } " alt="icon play" srcset="">
+              </div>
+     </div>
+     `;
+
+      divListSong.appendChild(divConteneurItemeSong);
+    });
+  }
 
   playsSong.addEventListener("click", () => {
-    audio.load()
-    audio.play()
-    
-
+    jouer()
   });
 
 });
@@ -142,17 +157,16 @@ function menuAction(nameMenu) {
   }
 }
 
-//liste tout les song trouver
-for (let i in dataSong) {
+chargerSong(0)
 
-  //affiche le nom de l'artiste
-  console.log(dataSong[i].artist);
-  //affiche le nom complet du song
-  console.log(dataSong[i].music);
-  console.log(dataSong[i].duration)
-
+function chargerSong(index) {
+  songEnCourDeLecture.src = require('@/assets/song/' + dataSong[index].music)
+  songEnCourDeLecture.load()
 }
 
+function jouer() {
+    songEnCourDeLecture.play()
+}
 
 </script>
 

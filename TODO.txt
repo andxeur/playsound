@@ -1,0 +1,3 @@
+remplacer le genre des song selon leurs valeures dans le fichier song.json
+
+mettre un hover quand un item de la liste des song est survoler
